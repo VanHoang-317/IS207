@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-03-07T17:30:00.000Z" agent="Antigravity" version="24.0.0" type="device">
+  <diagram id="sys-arch" name="System Architecture">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ============ TITLE ============ -->
+        <mxCell id="title" value="&lt;b&gt;E-Commerce Application — System Architecture&lt;/b&gt;" style="text;html=1;fontSize=20;fontColor=#1a1a2e;align=center;" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="800" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============ CLIENT BROWSER ============ -->
+        <mxCell id="client" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#43a047;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="340" height="520" as="geometry" />
+        </mxCell>
+        <mxCell id="client-label" value="&lt;b&gt;Client Browser&lt;/b&gt;" style="text;html=1;fontSize=14;fontColor=#2e7d32;align=center;" vertex="1" parent="1">
+          <mxGeometry x="100" y="110" width="220" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Next.js Frontend -->
+        <mxCell id="nextjs" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#66bb6a;strokeWidth=1;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="60" y="150" width="300" height="450" as="geometry" />
+        </mxCell>
+        <mxCell id="nextjs-label" value="&lt;b&gt;Next.js 16 Frontend&lt;/b&gt;&lt;br&gt;(TypeScript + Tailwind CSS)" style="text;html=1;fontSize=12;fontColor=#333;align=center;" vertex="1" parent="1">
+          <mxGeometry x="100" y="155" width="220" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- Pages -->
+        <mxCell id="pages" value="&lt;b&gt;Pages (App Router)&lt;/b&gt;&lt;hr&gt;/ — Home&lt;br&gt;/products — Product Listing&lt;br&gt;/product/[slug] — Product Detail&lt;br&gt;/cart — Shopping Cart&lt;br&gt;/checkout — Checkout&lt;br&gt;/wishlist — Wishlist&lt;br&gt;/login — Login&lt;br&gt;/register — Register&lt;br&gt;/admin — Admin Panel&lt;br&gt;/dashboard — Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#42a5f5;fontSize=11;align=left;spacingLeft=8;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="80" y="200" width="260" height="175" as="geometry" />
+        </mxCell>
+
+        <!-- Components -->
+        <mxCell id="components" value="&lt;b&gt;Shared Components&lt;/b&gt;&lt;hr&gt;Navbar · Footer · ProductCard&lt;br&gt;ProductReviews · ToastContainer&lt;br&gt;LayoutShell · UI primitives" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#ef5350;fontSize=11;align=left;spacingLeft=8;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="80" y="390" width="260" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Stores -->
+        <mxCell id="stores" value="&lt;b&gt;Zustand Stores&lt;/b&gt;&lt;hr&gt;authStore · cartStore&lt;br&gt;wishlistStore · toastStore" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ff9800;fontSize=11;align=left;spacingLeft=8;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="80" y="485" width="260" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Lib -->
+        <mxCell id="lib" value="&lt;b&gt;Lib&lt;/b&gt;&lt;br&gt;api.ts · utils.ts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#ab47bc;fontSize=11;align=center;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="80" y="568" width="260" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- ============ EXPRESS BACKEND ============ -->
+        <mxCell id="backend" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="520" y="100" width="380" height="520" as="geometry" />
+        </mxCell>
+        <mxCell id="backend-label" value="&lt;b&gt;Backend Server&lt;/b&gt;" style="text;html=1;fontSize=14;fontColor=#1565c0;align=center;" vertex="1" parent="1">
+          <mxGeometry x="620" y="110" width="180" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Express App -->
+        <mxCell id="express" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#64b5f6;strokeWidth=1;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="540" y="150" width="340" height="450" as="geometry" />
+        </mxCell>
+        <mxCell id="express-label" value="&lt;b&gt;Express.js 5&lt;/b&gt;&lt;br&gt;(Node.js + CommonJS)" style="text;html=1;fontSize=12;fontColor=#333;align=center;" vertex="1" parent="1">
+          <mxGeometry x="620" y="155" width="180" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- Middleware -->
+        <mxCell id="middleware" value="&lt;b&gt;Middleware Pipeline&lt;/b&gt;&lt;hr&gt;Helmet → Rate Limiter → CORS → JSON Parser&lt;br&gt;Auth Middleware (JWT) · Error Handler" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede7f6;strokeColor=#7e57c2;fontSize=11;align=left;spacingLeft=8;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="560" y="200" width="300" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Routes -->
+        <mxCell id="routes" value="&lt;b&gt;API Routes (/api)&lt;/b&gt;&lt;hr&gt;/auth — register, login, profile&lt;br&gt;/products — CRUD, search, filter&lt;br&gt;/orders — create, list, status&lt;br&gt;/payment — Razorpay integration&lt;br&gt;/logistics — Shiprocket tracking&lt;br&gt;/reviews — CRUD per product&lt;br&gt;/wishlist — add, remove, list" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8eaf6;strokeColor=#5c6bc0;fontSize=11;align=left;spacingLeft=8;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="560" y="285" width="300" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Controllers -->
+        <mxCell id="controllers" value="&lt;b&gt;Controllers&lt;/b&gt;&lt;hr&gt;authController · productController&lt;br&gt;orderController · paymentController&lt;br&gt;logisticsController · reviewController&lt;br&gt;wishlistController" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#26a69a;fontSize=11;align=left;spacingLeft=8;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="560" y="440" width="300" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Models -->
+        <mxCell id="models" value="&lt;b&gt;Models&lt;/b&gt;&lt;hr&gt;userModel · productModel · orderModel&lt;br&gt;reviewModel · wishlistModel" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#fbc02d;fontSize=11;align=left;spacingLeft=8;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="560" y="535" width="300" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- ============ DATABASE ============ -->
+        <mxCell id="db" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#fff9c4;strokeColor=#f9a825;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="200" width="180" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="db-label" value="&lt;b&gt;PostgreSQL&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;users · products&lt;br&gt;orders · order_items&lt;br&gt;addresses · categories&lt;br&gt;product_variants&lt;br&gt;reviews · wishlists&lt;br&gt;coupons" style="text;html=1;fontSize=11;fontColor=#333;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="220" width="160" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- ============ EXTERNAL SERVICES ============ -->
+        <mxCell id="ext-group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#e53935;strokeWidth=2;dashed=1;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="440" width="220" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-label" value="&lt;b&gt;External Services&lt;/b&gt;" style="text;html=1;fontSize=13;fontColor=#c62828;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="450" width="140" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- Razorpay -->
+        <mxCell id="razorpay" value="&lt;b&gt;Razorpay&lt;/b&gt;&lt;br&gt;Payment Gateway" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#e53935;fontSize=11;align=center;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="485" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Shiprocket -->
+        <mxCell id="shiprocket" value="&lt;b&gt;Shiprocket&lt;/b&gt;&lt;br&gt;Logistics &amp;amp; Tracking" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#e53935;fontSize=11;align=center;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="550" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ============ ARROWS ============ -->
+        <!-- Frontend → Backend (REST API) -->
+        <mxCell id="arrow1" value="REST API&lt;br&gt;(Axios, JSON)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1565c0;strokeWidth=2;fontColor=#1565c0;fontSize=11;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="client" target="backend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Backend → Database -->
+        <mxCell id="arrow2" value="SQL Queries&lt;br&gt;(pg driver)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#f9a825;strokeWidth=2;fontColor=#f57f17;fontSize=11;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="backend" target="db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Backend → Razorpay -->
+        <mxCell id="arrow3" value="Payment API" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#e53935;strokeWidth=2;fontColor=#c62828;fontSize=11;dashed=1;exitX=1;exitY=0.7;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="backend" target="razorpay">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Backend → Shiprocket -->
+        <mxCell id="arrow4" value="Logistics API" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#e53935;strokeWidth=2;fontColor=#c62828;fontSize=11;dashed=1;exitX=1;exitY=0.85;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="backend" target="shiprocket">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

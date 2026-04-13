@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-03-07T17:30:00.000Z" agent="Antigravity" version="24.0.0" type="device">
+  <diagram id="fe-tree" name="Frontend Component Tree">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="&lt;b&gt;Frontend — Component Tree &amp;amp; Page Map&lt;/b&gt;" style="text;html=1;fontSize=20;fontColor=#1a1a2e;align=center;" vertex="1" parent="1">
+          <mxGeometry x="400" y="15" width="800" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============ ROOT LAYOUT ============ -->
+        <mxCell id="root" value="&lt;b&gt;RootLayout&lt;/b&gt;&lt;br&gt;&lt;i&gt;layout.tsx&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a237e;fontColor=#ffffff;fontSize=13;align=center;strokeColor=#0d47a1;arcSize=12;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="660" y="70" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ============ LAYOUT SHELL ============ -->
+        <mxCell id="shell" value="&lt;b&gt;LayoutShell&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#283593;fontColor=#ffffff;fontSize=12;align=center;strokeColor=#1a237e;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="660" y="160" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="root-shell" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#5c6bc0;strokeWidth=2;" edge="1" parent="1" source="root" target="shell">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============ NAVBAR ============ -->
+        <mxCell id="navbar" value="&lt;b&gt;Navbar&lt;/b&gt;&lt;br&gt;&lt;i&gt;Search, Cart Badge, Auth Links&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8eaf6;strokeColor=#5c6bc0;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="410" y="160" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="shell-navbar" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#7986cb;strokeWidth=1;dashed=1;" edge="1" parent="1" source="shell" target="navbar">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============ FOOTER ============ -->
+        <mxCell id="footer" value="&lt;b&gt;Footer&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8eaf6;strokeColor=#5c6bc0;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="900" y="160" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="shell-footer" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#7986cb;strokeWidth=1;dashed=1;" edge="1" parent="1" source="shell" target="footer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============ TOAST CONTAINER ============ -->
+        <mxCell id="toast" value="&lt;b&gt;ToastContainer&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ff9800;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="160" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="shell-toast" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#ffb74d;strokeWidth=1;dashed=1;" edge="1" parent="1" source="shell" target="toast">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============ PAGES HEADER ============ -->
+        <mxCell id="pages-label" value="&lt;b&gt;App Router Pages&lt;/b&gt;" style="text;html=1;fontSize=14;fontColor=#1565c0;align=center;" vertex="1" parent="1">
+          <mxGeometry x="580" y="240" width="240" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- === Page nodes (row 1) === -->
+        <mxCell id="p-home" value="&lt;b&gt;/&lt;/b&gt;&lt;br&gt;Home" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#42a5f5;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="290" width="120" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="p-products" value="&lt;b&gt;/products&lt;/b&gt;&lt;br&gt;Product Listing" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#42a5f5;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="200" y="290" width="140" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="p-detail" value="&lt;b&gt;/product/[slug]&lt;/b&gt;&lt;br&gt;Product Detail" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#42a5f5;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="360" y="290" width="150" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="p-cart" value="&lt;b&gt;/cart&lt;/b&gt;&lt;br&gt;Shopping Cart" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#42a5f5;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="530" y="290" width="130" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="p-checkout" value="&lt;b&gt;/checkout&lt;/b&gt;&lt;br&gt;Checkout" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#42a5f5;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="680" y="290" width="120" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- === Page nodes (row 2) === -->
+        <mxCell id="p-wishlist" value="&lt;b&gt;/wishlist&lt;/b&gt;&lt;br&gt;Wishlist" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#ef5350;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="820" y="290" width="120" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="p-login" value="&lt;b&gt;/login&lt;/b&gt;&lt;br&gt;Login" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#ab47bc;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="960" y="290" width="110" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="p-register" value="&lt;b&gt;/register&lt;/b&gt;&lt;br&gt;Register" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#ab47bc;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="290" width="110" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="p-admin" value="&lt;b&gt;/admin&lt;/b&gt;&lt;br&gt;Admin Panel" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#fbc02d;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="1220" y="290" width="120" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="p-dash" value="&lt;b&gt;/dashboard&lt;/b&gt;&lt;br&gt;Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#fbc02d;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="1360" y="290" width="120" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Edges from shell to pages -->
+        <mxCell id="e-home" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#90caf9;strokeWidth=1;" edge="1" parent="1" source="shell" target="p-home"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-products" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#90caf9;strokeWidth=1;" edge="1" parent="1" source="shell" target="p-products"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-detail" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#90caf9;strokeWidth=1;" edge="1" parent="1" source="shell" target="p-detail"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-cart" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#90caf9;strokeWidth=1;" edge="1" parent="1" source="shell" target="p-cart"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-checkout" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#90caf9;strokeWidth=1;" edge="1" parent="1" source="shell" target="p-checkout"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-wishlist" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#ef9a9a;strokeWidth=1;" edge="1" parent="1" source="shell" target="p-wishlist"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-login" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#ce93d8;strokeWidth=1;" edge="1" parent="1" source="shell" target="p-login"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-register" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#ce93d8;strokeWidth=1;" edge="1" parent="1" source="shell" target="p-register"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-admin" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#fff176;strokeWidth=1;" edge="1" parent="1" source="shell" target="p-admin"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-dash" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#fff176;strokeWidth=1;" edge="1" parent="1" source="shell" target="p-dash"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ============ SHARED COMPONENTS (used by pages) ============ -->
+        <mxCell id="shared-label" value="&lt;b&gt;Shared Components&lt;/b&gt;" style="text;html=1;fontSize=14;fontColor=#c62828;align=center;" vertex="1" parent="1">
+          <mxGeometry x="130" y="380" width="200" height="25" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c-prodcard" value="&lt;b&gt;ProductCard&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffebee;strokeColor=#ef5350;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="415" width="130" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="c-reviews" value="&lt;b&gt;ProductReviews&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffebee;strokeColor=#ef5350;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="210" y="415" width="150" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- Dashed edges showing which pages use shared components -->
+        <mxCell id="use1" value="uses" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#ef5350;strokeWidth=1;dashed=1;fontSize=9;fontColor=#ef5350;" edge="1" parent="1" source="p-home" target="c-prodcard"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="use2" value="uses" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#ef5350;strokeWidth=1;dashed=1;fontSize=9;fontColor=#ef5350;" edge="1" parent="1" source="p-products" target="c-prodcard"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="use3" value="uses" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#ef5350;strokeWidth=1;dashed=1;fontSize=9;fontColor=#ef5350;" edge="1" parent="1" source="p-detail" target="c-reviews"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ============ ZUSTAND STORES ============ -->
+        <mxCell id="stores-label" value="&lt;b&gt;Zustand Stores (Global State)&lt;/b&gt;" style="text;html=1;fontSize=14;fontColor=#e65100;align=center;" vertex="1" parent="1">
+          <mxGeometry x="560" y="380" width="300" height="25" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s-auth" value="&lt;b&gt;authStore&lt;/b&gt;&lt;br&gt;&lt;i&gt;user, token, login, logout&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ff9800;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="490" y="415" width="160" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="s-cart" value="&lt;b&gt;cartStore&lt;/b&gt;&lt;br&gt;&lt;i&gt;items, add, remove, clear&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ff9800;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="670" y="415" width="160" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="s-wishlist" value="&lt;b&gt;wishlistStore&lt;/b&gt;&lt;br&gt;&lt;i&gt;items, toggle, fetch&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ff9800;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="850" y="415" width="160" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="s-toast" value="&lt;b&gt;toastStore&lt;/b&gt;&lt;br&gt;&lt;i&gt;show, dismiss&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ff9800;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="415" width="140" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Store usage edges -->
+        <mxCell id="su1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#ffb74d;strokeWidth=1;dashed=1;" edge="1" parent="1" source="p-login" target="s-auth"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="su2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#ffb74d;strokeWidth=1;dashed=1;" edge="1" parent="1" source="p-cart" target="s-cart"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="su3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#ffb74d;strokeWidth=1;dashed=1;" edge="1" parent="1" source="p-wishlist" target="s-wishlist"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="su4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#ffb74d;strokeWidth=1;dashed=1;" edge="1" parent="1" source="toast" target="s-toast"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ============ LIB LAYER ============ -->
+        <mxCell id="lib-label" value="&lt;b&gt;Lib Layer&lt;/b&gt;" style="text;html=1;fontSize=14;fontColor=#6a1b9a;align=center;" vertex="1" parent="1">
+          <mxGeometry x="580" y="500" width="240" height="25" as="geometry" />
+        </mxCell>
+
+        <mxCell id="l-api" value="&lt;b&gt;api.ts&lt;/b&gt;&lt;br&gt;&lt;i&gt;Axios instance, base URL, interceptors&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#ab47bc;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="500" y="535" width="230" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="l-utils" value="&lt;b&gt;utils.ts&lt;/b&gt;&lt;br&gt;&lt;i&gt;cn() helper (clsx + tailwind-merge)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#ab47bc;fontSize=11;align=center;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="760" y="535" width="230" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- API connects stores to backend -->
+        <mxCell id="api-edge" value="all stores use api.ts" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#ab47bc;strokeWidth=1;dashed=1;fontSize=9;fontColor=#6a1b9a;" edge="1" parent="1" source="s-cart" target="l-api"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
