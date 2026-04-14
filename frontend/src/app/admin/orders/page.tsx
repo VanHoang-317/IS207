@@ -14,7 +14,6 @@ type AdminOrder = {
 
 export default function AdminOrdersPage() {
     const [orders, setOrders] = useState<AdminOrder[]>([])
-    const [loadingIds, setLoadingIds] = useState<string[]>([])
 
     useEffect(() => {
         api.get("/orders")
@@ -28,40 +27,17 @@ export default function AdminOrdersPage() {
             setOrders(prev =>
                 prev.map(o => o.id === id ? { ...o, status } : o)
             )
-        } catch (err) {
+        } catch {
             alert("Failed to update status")
         }
     }
 
-    const handleCreateShipment = async (id: string) => {
-        try {
-            setLoadingIds(prev => [...prev, id])
-            const { data } = await api.post("/logistics/ship", { orderId: id })
-
-            setOrders(prev =>
-                prev.map(o =>
-                    o.id === id
-                        ? {
-                            ...o,
-                            status: "shipped",
-                            tracking_id: data.shipment?.awb_code || o.tracking_id || null,
-                        }
-                        : o
-                )
-            )
-        } catch (err: any) {
-            const message = err?.response?.data?.message || "Failed to create shipment"
-            alert(message)
-        } finally {
-            setLoadingIds(prev => prev.filter(x => x !== id))
-        }
-    }
-
-    const isLoading = (id: string) => loadingIds.includes(id)
-
     return (
         <div>
             <h1 className="text-3xl font-bold mb-8">Orders</h1>
+            <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+                Trang admin Ä‘Æ°á»£c giá»›i háº¡n á»Ÿ luá»“ng quán lá»· Ä‘Æ¡n cÆ¡ báº£n Ä‘á»ƒ phá»¥c vá»¥ demo á»•n Ä‘á»‹nh.
+            </div>
             <div className="bg-card rounded-lg border shadow-sm overflow-hidden">
                 <table className="w-full text-sm text-left">
                     <thead className="bg-muted text-muted-foreground font-medium border-b">
@@ -86,7 +62,7 @@ export default function AdminOrdersPage() {
                                                 ? "bg-green-100 text-green-800"
                                                 : order.status === "pending"
                                                     ? "bg-yellow-100 text-yellow-800"
-                                                    : order.status === "shipped"
+                                                    : order.status === "shipped" || order.status === "delivered"
                                                         ? "bg-blue-100 text-blue-800"
                                                         : "bg-gray-100 text-gray-800"
                                         }`}
@@ -115,10 +91,9 @@ export default function AdminOrdersPage() {
                                     {order.status === "paid" && (
                                         <Button
                                             size="sm"
-                                            onClick={() => handleCreateShipment(order.id)}
-                                            disabled={isLoading(order.id)}
+                                            onClick={() => handleStatusUpdate(order.id, "delivered")}
                                         >
-                                            {isLoading(order.id) ? "Creating..." : "Create Shipment"}
+                                            Mark Delivered
                                         </Button>
                                     )}
                                 </td>

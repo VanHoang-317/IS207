@@ -4,7 +4,7 @@ const createOrder = async (req, res, next) => {
     const { totalAmount, shippingAddress, items, status } = req.body;
 
     if (!items || items.length === 0) {
-        return res.status(400).json({ message: 'No items in order' });
+        return res.status(400).json({ message: 'Không có sản phẩm nào trong đơn hàng' });
     }
 
     try {
@@ -28,7 +28,7 @@ const getOrderById = async (req, res, next) => {
     try {
         const order = await orderModel.getOrderById(req.params.id);
         if (!order) {
-            return res.status(404).json({ message: 'Order not found' });
+            return res.status(404).json({ message: 'Không tìm thấy đơn hàng' });
         }
         if (order.user_id !== req.user.id) {
             return res.status(403).json({ message: 'Không có quyền xem đơn hàng này' });
@@ -53,7 +53,7 @@ const updateOrderStatus = async (req, res, next) => {
     try {
         const order = await orderModel.updateOrderStatus(req.params.id, status, paymentId, trackingId);
         if (!order) {
-            return res.status(404).json({ message: 'Order not found' });
+            return res.status(404).json({ message: 'Không tìm thấy đơn hàng' });
         }
         res.json(order);
     } catch (err) {

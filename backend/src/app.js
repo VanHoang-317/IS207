@@ -6,8 +6,6 @@ const rateLimit = require('express-rate-limit');
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
-const paymentRoutes = require('./routes/paymentRoutes');
-const logisticsRoutes = require('./routes/logisticsRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const wishlistRoutes = require('./routes/wishlistRoutes');
 const errorMiddleware = require('./middleware/errorMiddleware');
@@ -42,8 +40,6 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
-app.use('/api/payment', paymentRoutes);
-app.use('/api/logistics', logisticsRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 

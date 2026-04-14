@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, Suspense } from "react"
+import { Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -9,19 +9,12 @@ import { CheckCircle2, ArrowRight } from "lucide-react"
 // 1. Tách nội dung giao diện vào component con
 function SuccessContent() {
     const searchParams = useSearchParams()
-    const [mounted, setMounted] = useState(false)
     const type = searchParams.get('type')
     const urlOrderId = searchParams.get('orderId')
 
-    useEffect(() => {
-        setMounted(true)
-    }, [])
-
-    if (!mounted) return null
-
     const displayOrderId = urlOrderId 
         ? (urlOrderId.length > 12 ? urlOrderId.slice(-8).toUpperCase() : urlOrderId)
-        : `ORD${Math.floor(100000 + Math.random() * 900000)}`
+        : "ORD-DEMO"
 
     return (
         <div className="min-h-[80vh] flex items-center justify-center p-4 bg-[var(--soft-gray)] animate-fade-in">

@@ -3,20 +3,19 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+const connectionString = process.env.DATABASE_URL;
 
-pool.on('connect', () => {
-  console.log('Connected to the PostgreSQL database');
-});
+if (!connectionString) {
+    console.warn('DATABASE_URL is not set. Database features will not work until it is configured.');
+}
 
-pool.on('error', (err) => {
-  console.error('Unexpected error on idle client', err);
-  process.exit(-1);
-});
+const pool = new Pool(
+    connectionString
+        ? {
+            connectionString,
+            ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+        }
+        : undefined
+);
 
-module.exports = {
-  query: (text, params) => pool.query(text, params),
-  pool,
-};
+module.exports = { pool };

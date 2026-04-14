@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import api from "@/lib/api"
 import { formatPrice } from "@/lib/formatPrice"
 import {
-    MapPin, Building, Globe, Hash, ShieldCheck, Truck, RotateCcw,
+    MapPin, Building, Globe, ShieldCheck, Truck, RotateCcw,
     Loader2, Lock, Sparkles, ChevronRight, Check, CreditCard, Banknote,
     Smartphone, ArrowLeft, Package
 } from "lucide-react"
@@ -22,7 +22,7 @@ const STEPS = [
 ]
 
 const PAYMENT_METHODS = [
-    { id: "card", label: "Credit / Debit Card", icon: CreditCard, description: "Visa, Mastercard" },
+    { id: "card", label: "Card Payment (Demo)", icon: CreditCard, description: "UI demo only, no real gateway" },
     { id: "cod", label: "Thanh toán khi nhận hàng", icon: Banknote, description: "Thanh toán khi nhận hàng" },
     { id: "momo", label: "Ví MoMo", icon: Smartphone, description: "Quét mã QR để thanh toán qua MoMo" },
 ]
@@ -34,7 +34,7 @@ export default function CheckoutPage() {
     const isFreeShip = subtotal >= 500000;
     const shippingFee = isFreeShip ? 0 : 30000;
     const finalTotal = subtotal + shippingFee;
-    const { user, token } = useAuthStore()
+    const { token } = useAuthStore()
     const router = useRouter()
 
     const [address, setAddress] = useState({
@@ -65,7 +65,7 @@ export default function CheckoutPage() {
 
     const isPaymentValid = () => {
         if (paymentMethod === "cod") return true
-        if (paymentMethod === "card") return cardDetails.number.length >= 16 && cardDetails.name && cardDetails.expiry && cardDetails.cvv.length >= 3
+        if (paymentMethod === "card") return cardDetails.number.replace(/\s/g, "").length >= 16 && cardDetails.name && cardDetails.expiry && cardDetails.cvv.length >= 3
         return false
     }
 
@@ -80,13 +80,13 @@ export default function CheckoutPage() {
     const handlePlaceOrder = async () => {
         setLoading(true)
         try {
-            const totalAmt = totalPrice()
+            const totalAmt = finalTotal
             const orderItems = items.map(i => ({ product_id: i.id, product_name: i.name, quantity: i.quantity, price: i.price }))
 
             const { data: codOrder } = await api.post("/orders", {
                 totalAmount: totalAmt,
                 shippingAddress: address,
-                status: "pending",
+                status: paymentMethod === "card" ? "paid" : "pending",
                 items: orderItems
             })
             clearCart()
@@ -236,6 +236,9 @@ export default function CheckoutPage() {
                                         <CreditCard className="h-5 w-5 text-[var(--rose-gold)]" />
                                         Phương thức thanh toán
                                     </h2>
+                                    <div className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+                                        Online payment is presented as a demo flow in this version.
+                                    </div>
                                     <div className="space-y-3">
                                         {PAYMENT_METHODS.map((method) => (
                                             <button key={method.id} onClick={() => setPaymentMethod(method.id)}
