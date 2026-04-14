@@ -1,12 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { useSearchParams, useRouter } from "next/navigation"
+import { useEffect, useState, Suspense } from "react"
+import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { CheckCircle2, ArrowRight, Copy } from "lucide-react"
+import { CheckCircle2, ArrowRight } from "lucide-react"
 
-export default function CheckoutSuccessPage() {
+// 1. Tách nội dung giao diện vào component con
+function SuccessContent() {
     const searchParams = useSearchParams()
     const [mounted, setMounted] = useState(false)
     const type = searchParams.get('type')
@@ -18,7 +19,6 @@ export default function CheckoutSuccessPage() {
 
     if (!mounted) return null
 
-    // Rút gọn mã nếu quá dài (ví dụ lấy 8 ký tự cuối) hoặc dùng mã pseudo
     const displayOrderId = urlOrderId 
         ? (urlOrderId.length > 12 ? urlOrderId.slice(-8).toUpperCase() : urlOrderId)
         : `ORD${Math.floor(100000 + Math.random() * 900000)}`
@@ -45,7 +45,6 @@ export default function CheckoutSuccessPage() {
                             : "Tuyệt vời! Chúng tôi đã nhận được thanh toán của bạn. Đơn hàng đang được chuẩn bị."}
                     </p>
 
-                    {/* Box thông tin đơn hàng đã chỉnh sửa cho đẹp hơn */}
                     <div className="bg-[var(--soft-gray)] rounded-2xl p-6 mt-8 mb-8 border border-[var(--border)] space-y-4">
                         <div className="text-center pb-2 border-b border-gray-200/50">
                             <span className="text-[var(--muted-foreground)] block text-xs uppercase tracking-wider mb-1">Mã đơn hàng của bạn</span>
@@ -82,5 +81,18 @@ export default function CheckoutSuccessPage() {
                 </div>
             </div>
         </div>
+    )
+}
+
+// 2. Component chính bọc trong Suspense để fix lỗi build
+export default function CheckoutSuccessPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-[80vh] flex items-center justify-center">
+                <div className="animate-pulse text-[var(--muted-foreground)]">Đang tải xác nhận đơn hàng...</div>
+            </div>
+        }>
+            <SuccessContent />
+        </Suspense>
     )
 }

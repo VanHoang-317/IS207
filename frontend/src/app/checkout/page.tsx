@@ -352,7 +352,7 @@ export default function CheckoutPage() {
                                         <h3 className="font-bold flex items-center gap-2"><Truck className="h-4 w-4 text-[var(--rose-gold)]" />Địa chỉ giao hàng</h3>
                                         <button onClick={() => setCurrentStep(1)} className="text-xs text-[var(--rose-gold)] font-medium hover:underline">Sửa</button>
                                     </div>
-                                    <p className="text-sm text-[var(--muted-foreground)]">{address.street}, {address.city}, {address.state} — {address.zip}, {address.country}</p>
+                                    <p className="text-sm text-[var(--muted-foreground)]">{address.street}, {address.city}, {address.ward} — {address.district}, {address.country}</p>
                                 </div>
 
                                 <div className="bg-white rounded-2xl border border-[var(--border)] p-6">
