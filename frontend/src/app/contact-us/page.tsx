@@ -23,7 +23,7 @@ export default function ContactUsPage() {
                 </div>
                 <div className="flex justify-center">
                     <img
-                        src="/public/logo.png"
+                        src="/logo.png"
                         alt="Contact"
                         className="w-full max-w-md object-cover rounded-2xl"
                     />

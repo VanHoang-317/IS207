@@ -13,7 +13,7 @@ export function LayoutShell({ children }: { children: React.ReactNode }) {
 
     return (
         <>
-            <Navbar />
+           {!isAuthPage && <Navbar />}
             <main className="flex-1">{children}</main>
             {!isAuthPage && <Footer />}
             <ToastContainer />

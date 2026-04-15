@@ -16,21 +16,21 @@ export default function AdminProductsPage() {
     }, [])
 
     const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure?")) return
+        if (!confirm("Chắc chưa?")) return
         try {
             await api.delete(`/products/${id}`)
             setProducts(products.filter(p => p.id !== id))
         } catch (err) {
-            alert("Failed to delete")
+            alert("Lỗi khi xóa")
         }
     }
 
     return (
         <div>
             <div className="flex justify-between items-center mb-8">
-                <h1 className="text-3xl font-bold">Products</h1>
+                <h1 className="text-3xl font-bold">Sản phẩm</h1>
                 <Button asChild>
-                    <Link href="/admin/products/new"><Plus className="mr-2 h-4 w-4" /> Add Product</Link>
+                    <Link href="/admin/products/new"><Plus className="mr-2 h-4 w-4" />Thêm</Link>
                 </Button>
             </div>
 
@@ -38,10 +38,10 @@ export default function AdminProductsPage() {
                 <table className="w-full text-sm text-left">
                     <thead className="bg-muted text-muted-foreground font-medium border-b">
                         <tr>
-                            <th className="p-4">Name</th>
-                            <th className="p-4">Price</th>
-                            <th className="p-4">Stock</th>
-                            <th className="p-4 text-right">Actions</th>
+                            <th className="p-4">Tên</th>
+                            <th className="p-4">Giá</th>
+                            <th className="p-4">Số lượng</th>
+                            <th className="p-4 text-right">Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,7 +62,7 @@ export default function AdminProductsPage() {
                         ))}
                     </tbody>
                 </table>
-                {products.length === 0 && <div className="p-8 text-center text-muted-foreground">No products found</div>}
+                {products.length === 0 && <div className="p-8 text-center text-muted-foreground">Không có sản phẩm nào</div>}
             </div>
         </div>
     )

@@ -22,8 +22,8 @@ export default function Home() {
       <section className="relative w-full">
         <div className="relative h-[calc(100vh-72px)] min-h-[600px]">
           <img
-            src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=1600&h=900&fit=crop&crop=center"
-            alt="Skincare products on marble surface"
+            src="/background.png"
+            alt="#"
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
@@ -65,7 +65,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <Link href="/products/skin-care" className="group relative h-80 md:h-[420px] rounded-xl overflow-hidden block">
             <img
-              src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&h=600&fit=crop"
+              src="https://img.freepik.com/premium-photo/beauty-products-skin-care-blue-background_1168123-19181.jpg?w=2000"
               alt="Skin Care"
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
@@ -80,7 +80,7 @@ export default function Home() {
 
           <Link href="/products/hair-care" className="group relative h-80 md:h-[420px] rounded-xl overflow-hidden block">
             <img
-              src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?w=800&h=600&fit=crop"
+              src="https://tse2.mm.bing.net/th/id/OIP.TvBOvkZeG1NjhGDASzix9wHaEJ?pid=Api&h=220&P=0"
               alt="Hair Care"
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />

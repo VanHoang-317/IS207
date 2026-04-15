@@ -2,7 +2,6 @@
 
 import { useToastStore } from "@/store/toastStore"
 import { CheckCircle2, XCircle, Info, X } from "lucide-react"
-import { useEffect, useState } from "react"
 
 const ICON_MAP = {
     success: CheckCircle2,
