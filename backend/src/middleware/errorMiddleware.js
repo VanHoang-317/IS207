@@ -1,11 +1,12 @@
 const errorMiddleware = (err, req, res, next) => {
-    console.error(err.stack); // Log the error stack trace internally
+    // Luôn log lỗi ra terminal để mình dễ theo dõi khi demo
+    console.error("Lỗi hệ thống:", err.message); 
 
-    // Send a sanitized JSON response to the client
-    res.status(err.status || 500).json({
-        message: err.message || 'Server Error',
-        // Only include the stack trace in development mode for easier debugging
-        stack: process.env.NODE_ENV === 'production' ? null : err.stack,
+    // Trả về lỗi đơn giản cho Frontend
+    const status = err.status || 500;
+    res.status(status).json({
+        success: false,
+        message: err.message || 'Có lỗi xảy ra ở Server!',
     });
 };
 

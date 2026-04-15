@@ -12,9 +12,6 @@ const errorMiddleware = require('./middleware/errorMiddleware');
 
 const app = express();
 
-const path = require('path');
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-
 // 1. Security HTTP headers
 app.use(helmet());
 

@@ -6,7 +6,7 @@ const getProducts = async (req, res, next) => {
         const limit = parseInt(req.query.limit, 10) || 12;
         const offset = (page - 1) * limit;
 
-        const { search, category, minPrice, maxPrice, sort, tag } = req.query; // ← thêm tag
+        const { search, category, minPrice, maxPrice, sort, tag } = req.query;
 
         const data = await productModel.getAllProducts({
             limit,
@@ -14,7 +14,7 @@ const getProducts = async (req, res, next) => {
             search,
             category,
             sort,
-            tag, // ← thêm tag
+            tag,
             minPrice: minPrice ? parseFloat(minPrice) : undefined,
             maxPrice: maxPrice ? parseFloat(maxPrice) : undefined,
         });
@@ -55,17 +55,22 @@ const getProductById = async (req, res, next) => {
     }
 };
 
+// --- FIX CHỖ NÀY: Dùng link ảnh từ body thay vì upload file ---
 const createProduct = async (req, res, next) => {
     try {
-        const imageUrls = req.files
-            ? req.files.map(f => `http://localhost:5000/uploads/${f.filename}`)
-            : [];
+        // Parse images từ chuỗi JSON gửi từ frontend
+        let imageUrls = [];
+        if (req.body.images) {
+            imageUrls = typeof req.body.images === 'string' 
+                ? JSON.parse(req.body.images) 
+                : req.body.images;
+        }
 
         const newProduct = await productModel.createProduct({
             ...req.body,
             price: parseFloat(req.body.price),
             stock: parseInt(req.body.stock),
-            images: imageUrls,
+            images: imageUrls, // Lưu mảng link vào DB
             discount_price: req.body.discount_price ? parseFloat(req.body.discount_price) : null,
             ingredients: req.body.ingredients || '',
             tag: req.body.tag || null
@@ -77,11 +82,20 @@ const createProduct = async (req, res, next) => {
     }
 };
 
+// --- FIX CHỖ NÀY: Hàm update đồng bộ với logic dán link ---
 const updateProduct = async (req, res, next) => {
     try {
-        const imageUrls = req.files && req.files.length > 0
-            ? req.files.map(f => `http://localhost:5000/uploads/${f.filename}`)
-            : req.body.images || [];
+        let imageUrls = [];
+        // Nếu frontend gửi images dạng string JSON thì parse ra mảng
+        if (req.body.images) {
+            try {
+                imageUrls = typeof req.body.images === 'string' 
+                    ? JSON.parse(req.body.images) 
+                    : req.body.images;
+            } catch (e) {
+                imageUrls = [req.body.images];
+            }
+        }
 
         const updatedProduct = await productModel.updateProduct(req.params.id, {
             ...req.body,

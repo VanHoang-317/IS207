@@ -136,19 +136,45 @@ export default function CategoryPage() {
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                                {products.map((product) => (
+                                 {products.map((product) => {
+                                // 1. Ép kiểu dữ liệu để lấy link ảnh chuẩn
+                                let displayImage = 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be'; // Ảnh mặc định
+
+                                if (product.images) {
+                                    try {
+                                        // Nếu là chuỗi JSON, parse nó ra
+                                        const imageArray = typeof product.images === 'string' 
+                                            ? JSON.parse(product.images) 
+                                            : product.images;
+                                        
+                                        // Lấy ảnh đầu tiên trong mảng
+                                        if (Array.isArray(imageArray) && imageArray.length > 0) {
+                                            displayImage = imageArray[0];
+                                        }
+                                    } catch (e) {
+                                        // Nếu parse lỗi, có thể nó là link đơn thuần
+                                        displayImage = product.images;
+                                    }
+                                }
+
+                                return (
                                     <ProductCard
                                         key={product.id}
                                         id={product.id}
                                         name={product.name}
+                                        // Sửa lại cách lấy giá để khớp với DB ní gửi
                                         price={parseFloat(product.price)}
                                         discountPrice={product.discount_price ? parseFloat(product.discount_price) : undefined}
-                                        image={product.images?.[0] || 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be'}
+                                        
+                                        // DÙNG BIẾN MÌNH VỪA XỬ LÝ Ở ĐÂY
+                                        image={displayImage}
+                                        
                                         slug={product.slug}
                                         stock={product.stock}
                                         tag={product.tag || undefined}
                                     />
-                                ))}
+                                );
+                            })}
                             </div>
                         )}
                     </div>

@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation"
 import api from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ImagePlus, X } from "lucide-react"
+import { Link as LinkIcon, X } from "lucide-react"
 
 export default function NewProductPage() {
     const router = useRouter()
+    const [loading, setLoading] = useState(false)
+
     const [formData, setFormData] = useState({
         name: "",
         slug: "",
@@ -18,42 +20,34 @@ export default function NewProductPage() {
         description: "",
         tag: "",
     })
-    const [images, setImages] = useState<File[]>([])
-    const [previews, setPreviews] = useState<string[]>([])
-    const [loading, setLoading] = useState(false)
+
+    // CHUYỂN ĐỔI: Dùng mảng string để chứa link ảnh thay vì File[]
+    const [images, setImages] = useState<string[]>([])
+    const [newImageUrl, setNewImageUrl] = useState("")
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target
         setFormData(prev => ({ ...prev, [name]: value }))
 
-        // Tự động tạo slug từ name
         if (name === "name") {
             setFormData(prev => ({
                 ...prev,
                 name: value,
-                slug: value.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")
+                slug: value.toLowerCase().trim().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")
             }))
         }
     }
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = Array.from(e.target.files || [])
-        if (files.length === 0) return
-
-        // Giới hạn 5 ảnh
-        const newImages = [...images, ...files].slice(0, 5)
-        setImages(newImages)
-
-        // Tạo preview
-        const newPreviews = newImages.map(file => URL.createObjectURL(file))
-        setPreviews(newPreviews)
+    const addImageLink = (e: React.MouseEvent) => {
+    e.preventDefault(); // Ngăn form bị reload hoặc submit nhầm
+    if (newImageUrl.trim() && images.length < 5) {
+        setImages(prev => [...prev, newImageUrl.trim()]);
+        setNewImageUrl(""); 
     }
+}
 
     const removeImage = (index: number) => {
-        const newImages = images.filter((_, i) => i !== index)
-        const newPreviews = previews.filter((_, i) => i !== index)
-        setImages(newImages)
-        setPreviews(newPreviews)
+        setImages(prev => prev.filter((_, i) => i !== index))
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -61,23 +55,20 @@ export default function NewProductPage() {
         setLoading(true)
 
         try {
-            const data = new FormData()
-            data.append("name", formData.name)
-            data.append("slug", formData.slug)
-            data.append("price", formData.price)
-            data.append("stock", formData.stock)
-            data.append("category", formData.category)
-            data.append("description", formData.description)
-            data.append("ingredients", "")
-            images.forEach(img => data.append("images", img))
+            // CHỈNH LẠI: Gửi JSON thuần cho Backend, không dùng FormData nữa
+            const payload = {
+                ...formData,
+                price: parseFloat(formData.price),
+                stock: parseInt(formData.stock),
+                images: images, // Gửi thẳng mảng link ảnh
+                ingredients: ""
+            }
 
-            await api.post("/products", data, {
-                headers: { "Content-Type": "multipart/form-data" }
-            })
-
+            await api.post("/products", payload)
             router.push("/admin/products")
         } catch (err) {
-            alert("Failed to create product")
+            console.error(err)
+            alert("Lỗi rồi! Kiểm tra lại link ảnh hoặc Backend nhé.")
         } finally {
             setLoading(false)
         }
@@ -85,96 +76,91 @@ export default function NewProductPage() {
 
     return (
         <div className="max-w-2xl bg-card p-8 rounded-lg border">
-            <h1 className="text-2xl font-bold mb-6">Add New Product</h1>
+            <h1 className="text-2xl font-bold mb-6">Thêm sản phẩm mới (Fleur Beauty)</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label className="block text-sm font-medium mb-1">Name</label>
-                    <Input name="name" value={formData.name} onChange={handleChange} required />
+                    <label className="block text-sm font-medium mb-1">Tên sản phẩm</label>
+                    <Input name="name" value={formData.name} onChange={handleChange} required placeholder="Ví dụ: Kérastase Masque..." />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium mb-1">Slug</label>
+                    <label className="block text-sm font-medium mb-1">Slug (Tự động)</label>
                     <Input name="slug" value={formData.slug} onChange={handleChange} required />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium mb-1">Price</label>
-                        <Input name="price" type="number" step="1000" value={formData.price} onChange={handleChange} required />
+                        <label className="block text-sm font-medium mb-1">Giá (VNĐ)</label>
+                        <Input name="price" type="number" value={formData.price} onChange={handleChange} required />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-1">Stock</label>
+                        <label className="block text-sm font-medium mb-1">Số lượng</label>
                         <Input name="stock" type="number" value={formData.stock} onChange={handleChange} required />
                     </div>
                 </div>
                 <div>
-                    <label className="block text-sm font-medium mb-1">Category</label>
-                    <Input name="category" value={formData.category} onChange={handleChange} />
+                    <label className="block text-sm font-medium mb-1">Danh mục</label>
+                    <Input name="category" value={formData.category} onChange={handleChange} placeholder="hair-care, skin-care..." />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium mb-1">Description</label>
+                    <label className="block text-sm font-medium mb-1">Mô tả</label>
                     <textarea
                         name="description"
-                        className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         value={formData.description}
                         onChange={handleChange}
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium mb-1">Tag</label>
+                    <label className="block text-sm font-medium mb-1">Nhãn (Tag)</label>
                     <select
                         name="tag"
                         value={formData.tag}
                         onChange={handleChange}
                         className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    >
+                        <option value="">Không có</option>
+                        <option value="Best Seller">Best Seller</option>
+                        <option value="New">New</option>
+                        <option value="Sale">Sale</option>
+                    </select>
+                </div>
+
+                {/* GIAO DIỆN DÁN LINK ẢNH MỚI */}
+                <div className="pt-4 border-t">
+                    <label className="block text-sm font-medium mb-2">Hình ảnh</label>
+                    <div className="flex gap-2 mb-3">
+                        <Input 
+                            placeholder="Dán địa chỉ hình ảnh vào đây..." 
+                            value={newImageUrl}
+                            onChange={(e) => setNewImageUrl(e.target.value)}
+                        />
+                        <Button 
+                            type="button" 
+                            onClick={(e) => addImageLink(e)}
+                            variant="outline" 
+                            disabled={images.length >= 5}
                         >
-                            <option value="">Không có</option>
-                            <option value="Best Seller">Best Seller</option>
-                            <option value="New">New</option>
-                            <option value="Popular">Popular</option>
-                            <option value="Sale">Sale</option>
-                     </select>
-                </div>
-                {/* ===== PHẦN UPLOAD ẢNH ===== */}
-                <div>
-                    <label className="block text-sm font-medium mb-2">
-                        Images <span className="text-muted-foreground">(tối đa 5 ảnh)</span>
-                    </label>
+                            <LinkIcon className="h-4 w-4 mr-2" /> Thêm
+                        </Button>
+                    </div>
 
-                    {/* Preview ảnh đã chọn */}
-                    {previews.length > 0 && (
-                        <div className="flex flex-wrap gap-3 mb-3">
-                            {previews.map((src, i) => (
-                                <div key={i} className="relative w-24 h-24 rounded-md overflow-hidden border">
-                                    <img src={src} alt="" className="w-full h-full object-cover" />
-                                    <button
-                                        type="button"
-                                        onClick={() => removeImage(i)}
-                                        className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-0.5 hover:bg-black"
-                                    >
-                                        <X className="h-3 w-3" />
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-
-                    {/* Nút chọn ảnh */}
-                    {images.length < 5 && (
-                        <label className="flex items-center gap-2 w-fit cursor-pointer border border-dashed border-input rounded-md px-4 py-3 text-sm text-muted-foreground hover:border-foreground hover:text-foreground transition-colors">
-                            <ImagePlus className="h-4 w-4" />
-                            Chọn ảnh
-                            <input
-                                type="file"
-                                accept="image/*"
-                                multiple
-                                className="hidden"
-                                onChange={handleImageChange}
-                            />
-                        </label>
-                    )}
+                    <div className="flex flex-wrap gap-3">
+                        {images.map((src, i) => (
+                            <div key={i} className="relative w-24 h-24 rounded-md overflow-hidden border bg-muted">
+                                <img src={src} alt="" className="w-full h-full object-cover" />
+                                <button
+                                    type="button"
+                                    onClick={() => removeImage(i)}
+                                    className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-0.5 hover:bg-red-800"
+                                >
+                                    <X className="h-3 w-3" />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
-                <Button type="submit" className="w-full" disabled={loading}>
-                    {loading ? "Đang tạo..." : "Create Product"}
+                <Button type="submit" className="w-full mt-6" disabled={loading}>
+                    {loading ? "Đang tạo..." : "Tạo sản phẩm ngay"}
                 </Button>
             </form>
         </div>

@@ -5,7 +5,7 @@ import { useRouter, useParams } from "next/navigation"
 import api from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ImagePlus, X } from "lucide-react"
+import { X, Link as LinkIcon } from "lucide-react"
 
 export default function EditProductPage() {
     const router = useRouter()
@@ -21,9 +21,10 @@ export default function EditProductPage() {
         description: "",
         tag: ""
     })
-    const [existingImages, setExistingImages] = useState<string[]>([])
-    const [newImages, setNewImages] = useState<File[]>([])
-    const [previews, setPreviews] = useState<string[]>([])
+    
+    // Quản lý ảnh bằng mảng string (link)
+    const [images, setImages] = useState<string[]>([])
+    const [newImageUrl, setNewImageUrl] = useState("") 
     const [loading, setLoading] = useState(false)
     const [fetching, setFetching] = useState(true)
 
@@ -40,9 +41,15 @@ export default function EditProductPage() {
                     description: p.description || "",
                     tag: p.tag || ""
                 })
-                setExistingImages(p.images || [])
+
+                // Xử lý dữ liệu ảnh từ DB (nếu là chuỗi JSON thì parse ra)
+                let imgData = p.images || []
+                if (typeof imgData === 'string') {
+                    try { imgData = JSON.parse(imgData) } catch (e) { imgData = [imgData] }
+                }
+                setImages(Array.isArray(imgData) ? imgData : [])
             })
-            .catch(err => console.error(err))
+            .catch(err => console.error("Lỗi lấy chi tiết sp:", err))
             .finally(() => setFetching(false))
     }, [id])
 
@@ -52,95 +59,84 @@ export default function EditProductPage() {
             setFormData(prev => ({
                 ...prev,
                 name: value,
-                slug: value.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")
+                slug: value.toLowerCase().trim().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")
             }))
         } else {
             setFormData(prev => ({ ...prev, [name]: value }))
         }
     }
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = Array.from(e.target.files || [])
-        const combined = [...newImages, ...files].slice(0, 5)
-        setNewImages(combined)
-        setPreviews(combined.map(f => URL.createObjectURL(f)))
+    const addImageLink = () => {
+        if (newImageUrl.trim() && images.length < 5) {
+            setImages([...images, newImageUrl.trim()])
+            setNewImageUrl("")
+        }
     }
 
-    const removeExistingImage = (index: number) => {
-        setExistingImages(prev => prev.filter((_, i) => i !== index))
-    }
-
-    const removeNewImage = (index: number) => {
-        const updated = newImages.filter((_, i) => i !== index)
-        setNewImages(updated)
-        setPreviews(updated.map(f => URL.createObjectURL(f)))
+    const removeImage = (index: number) => {
+        setImages(prev => prev.filter((_, i) => i !== index))
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setLoading(true)
         try {
-            const data = new FormData()
-            data.append("name", formData.name)
-            data.append("slug", formData.slug)
-            data.append("price", formData.price)
-            data.append("stock", formData.stock)
-            data.append("category", formData.category)
-            data.append("description", formData.description)
-            data.append("tag", formData.tag)
-            data.append("existingImages", JSON.stringify(existingImages))
-            newImages.forEach(img => data.append("images", img))
+            // Gửi dữ liệu dưới dạng JSON thuần túy
+            const payload = {
+                ...formData,
+                images: JSON.stringify(images) // Đóng gói mảng link thành chuỗi
+            }
 
-            await api.put(`/products/${id}`, data, {
-                headers: { "Content-Type": "multipart/form-data" }
-            })
+            await api.put(`/products/${id}`, payload)
+            alert("Cập nhật sản phẩm thành công!")
             router.push("/admin/products")
         } catch (err) {
-            alert("Failed to update product")
+            console.error(err)
+            alert("Không thể cập nhật sản phẩm. Kiểm tra lại Backend!")
         } finally {
             setLoading(false)
         }
     }
 
-    if (fetching) return <div className="p-8 text-center">Đang tải...</div>
+    if (fetching) return <div className="p-8 text-center">Đang tải dữ liệu sản phẩm...</div>
 
     return (
         <div className="max-w-2xl bg-card p-8 rounded-lg border">
             <h1 className="text-2xl font-bold mb-6">Chỉnh sửa sản phẩm</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label className="block text-sm font-medium mb-1">Name</label>
+                    <label className="block text-sm font-medium mb-1">Tên sản phẩm</label>
                     <Input name="name" value={formData.name} onChange={handleChange} required />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium mb-1">Slug</label>
+                    <label className="block text-sm font-medium mb-1">Slug (Đường dẫn)</label>
                     <Input name="slug" value={formData.slug} onChange={handleChange} required />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium mb-1">Price</label>
-                        <Input name="price" type="number" step="1000" value={formData.price} onChange={handleChange} required />
+                        <label className="block text-sm font-medium mb-1">Giá (VNĐ)</label>
+                        <Input name="price" type="number" value={formData.price} onChange={handleChange} required />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-1">Stock</label>
+                        <label className="block text-sm font-medium mb-1">Kho hàng</label>
                         <Input name="stock" type="number" value={formData.stock} onChange={handleChange} required />
                     </div>
                 </div>
                 <div>
-                    <label className="block text-sm font-medium mb-1">Category</label>
+                    <label className="block text-sm font-medium mb-1">Danh mục</label>
                     <Input name="category" value={formData.category} onChange={handleChange} />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium mb-1">Description</label>
+                    <label className="block text-sm font-medium mb-1">Mô tả</label>
                     <textarea
                         name="description"
-                        className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         value={formData.description}
                         onChange={handleChange}
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium mb-1">Tag</label>
+                    <label className="block text-sm font-medium mb-1">Nhãn (Tag)</label>
                     <select
                         name="tag"
                         value={formData.tag}
@@ -155,65 +151,45 @@ export default function EditProductPage() {
                     </select>
                 </div>
 
-                {/* Ảnh hiện tại */}
-                {existingImages.length > 0 && (
-                    <div>
-                        <label className="block text-sm font-medium mb-2">Ảnh hiện tại</label>
-                        <div className="flex flex-wrap gap-3">
-                            {existingImages.map((src, i) => (
-                                <div key={i} className="relative w-24 h-24 rounded-md overflow-hidden border">
-                                    <img src={src} alt="" className="w-full h-full object-cover" />
-                                    <button
-                                        type="button"
-                                        onClick={() => removeExistingImage(i)}
-                                        className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-0.5 hover:bg-black"
-                                    >
-                                        <X className="h-3 w-3" />
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
+                {/* PHẦN QUẢN LÝ LINK ẢNH */}
+                <div className="pt-4 border-t space-y-4">
+                    <label className="block text-sm font-medium">Hình ảnh sản phẩm</label>
+                    
+                    <div className="flex gap-2">
+                        <Input 
+                            placeholder="Dán link ảnh tại đây..." 
+                            value={newImageUrl}
+                            onChange={(e) => setNewImageUrl(e.target.value)}
+                        />
+                        <Button type="button" onClick={addImageLink} variant="secondary" disabled={images.length >= 5}>
+                            <LinkIcon className="h-4 w-4 mr-2" /> Thêm
+                        </Button>
                     </div>
-                )}
 
-                {/* Upload ảnh mới */}
-                <div>
-                    <label className="block text-sm font-medium mb-2">
-                        Thêm ảnh mới <span className="text-muted-foreground">(tối đa 5 ảnh)</span>
-                    </label>
-                    {previews.length > 0 && (
-                        <div className="flex flex-wrap gap-3 mb-3">
-                            {previews.map((src, i) => (
-                                <div key={i} className="relative w-24 h-24 rounded-md overflow-hidden border">
-                                    <img src={src} alt="" className="w-full h-full object-cover" />
-                                    <button
-                                        type="button"
-                                        onClick={() => removeNewImage(i)}
-                                        className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-0.5 hover:bg-black"
-                                    >
-                                        <X className="h-3 w-3" />
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                    {(existingImages.length + newImages.length) < 5 && (
-                        <label className="flex items-center gap-2 w-fit cursor-pointer border border-dashed border-input rounded-md px-4 py-3 text-sm text-muted-foreground hover:border-foreground hover:text-foreground transition-colors">
-                            <ImagePlus className="h-4 w-4" />
-                            Chọn ảnh
-                            <input
-                                type="file"
-                                accept="image/*"
-                                multiple
-                                className="hidden"
-                                onChange={handleImageChange}
-                            />
-                        </label>
-                    )}
+                    <div className="flex flex-wrap gap-3">
+                        {images.map((src, i) => (
+                            <div key={i} className="relative w-24 h-24 rounded-md overflow-hidden border bg-muted">
+                                <img 
+                                    src={src} 
+                                    alt="" 
+                                    className="w-full h-full object-cover" 
+                                    onError={(e) => {(e.target as HTMLImageElement).src = 'https://placehold.co/200?text=Loi+Link'}}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => removeImage(i)}
+                                    className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-0.5 hover:bg-red-800 transition-colors"
+                                >
+                                    <X className="h-3 w-3" />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                    <p className="text-xs text-muted-foreground italic">* Tối đa 5 ảnh.</p>
                 </div>
 
-                <Button type="submit" className="w-full" disabled={loading}>
-                    {loading ? "Đang lưu..." : "Lưu thay đổi"}
+                <Button type="submit" className="w-full mt-6" disabled={loading}>
+                    {loading ? "Đang xử lý..." : "Lưu thay đổi"}
                 </Button>
             </form>
         </div>
